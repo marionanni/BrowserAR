@@ -20,7 +20,9 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SensorsActivity extends Activity implements SensorEventListener, LocationListener {
+
     private static final String TAG = "SensorsActivity";
+
     /* verifica daca o sarcina este in executie */
     private static final AtomicBoolean isQueueBusy = new AtomicBoolean(false);
 
@@ -31,7 +33,6 @@ public class SensorsActivity extends Activity implements SensorEventListener, Lo
     private static final float finalRotationMatrix[] = new float[9];
     private static final float gravityNumbers[] = new float[3];
     private static final float magneticFieldNumbers[] = new float[3];
-
 
     private static final Matrix worldCoordonates = new Matrix();
     private static final Matrix magneticCompensatedCoord = new Matrix();
@@ -58,10 +59,7 @@ public class SensorsActivity extends Activity implements SensorEventListener, Lo
         double angleX = Math.toRadians(-90);
         double angleY = Math.toRadians(-90);
 
-        xAxisRotation.set( 1f,
-                0f,
-                0f,
-                0f,
+        xAxisRotation.set(1f, 0f, 0f, 0f,
                 (float) Math.cos(angleX),
                 (float) -Math.sin(angleX),
                 0f,
@@ -86,20 +84,33 @@ public class SensorsActivity extends Activity implements SensorEventListener, Lo
             sensorManager.registerListener(this, sensorMagnetic, SensorManager.SENSOR_DELAY_GAME);
 
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BETWEEN_LOCATION_UPDATES, MIN_DISTANCE_BETWEEN_LOCATION_UPDATES, this);
+            try {
+                /** @// TODO: 2/26/2017
+                 * add permissionRequests
+                 */
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BETWEEN_LOCATION_UPDATES, MIN_DISTANCE_BETWEEN_LOCATION_UPDATES, this);
 
+            } catch (SecurityException e){
+                Log.e(TAG, "locationManager.requestLocationUpdates SecurityException", e);
+            }
             try {
 
                 try {
-                    Location gps= locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                    Location network= locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                    if(gps!=null) {
+                    /** @// TODO: 2/26/2017
+                     * add permissionRequests
+                     */
+                    Location gps = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    Location network = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                    if (gps != null) {
                         onLocationChanged(gps);
-                    } else if (network!=null) {
+                    } else if (network != null) {
                         onLocationChanged(network);
                     } else {
                         onLocationChanged(ARData.hardFix);
                     }
+
+                } catch (SecurityException e){
+                    Log.e(TAG, "locationManager.getLastKnownLocation SecurityException", e);
                 } catch (Exception ex2) {
                     Log.e(TAG, "onLocationChanged exception", ex2);
                     onLocationChanged(ARData.hardFix);
@@ -134,10 +145,15 @@ public class SensorsActivity extends Activity implements SensorEventListener, Lo
                     sensorManager.unregisterListener(this, sensorMagnetic);
                     sensorManager = null;
                 }
+                /** @// TODO: 2/26/2017
+                 * add permissionRequests
+                 */
                 if (locationManager != null) {
                     locationManager.removeUpdates(this);
                     locationManager = null;
                 }
+            } catch (SecurityException e){
+                Log.e(TAG, "locationManager.removeUpdates SecurityException", e);
             } catch (Exception ex2) {
                 ex2.printStackTrace();
             }
@@ -155,13 +171,20 @@ public class SensorsActivity extends Activity implements SensorEventListener, Lo
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
+
             sensorManager = null;
 
             try {
+                /** @// TODO: 2/26/2017
+                 * add permissionRequests
+                 */
                 locationManager.removeUpdates(this);
+            } catch (SecurityException e){
+                Log.e(TAG, "onStop locationManager.removeUpdates SecurityException", e);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
+
             locationManager = null;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -172,12 +195,14 @@ public class SensorsActivity extends Activity implements SensorEventListener, Lo
         if (!isQueueBusy.compareAndSet(false, true)) return;
 
         switch (evt.sensor.getType()){
+
             case Sensor.TYPE_ACCELEROMETER:
                 smooth = LowPassFilter.filter(0.5f, 1.0f, evt.values, gravityNumbers);
                 gravityNumbers[0] = smooth[0];
                 gravityNumbers[1] = smooth[1];
                 gravityNumbers[2] = smooth[2];
                 break;
+
             case Sensor.TYPE_MAGNETIC_FIELD:
                 smooth = LowPassFilter.filter(2.0f, 4.0f, evt.values, magneticFieldNumbers);
                 magneticFieldNumbers[0] = smooth[0];
@@ -188,6 +213,7 @@ public class SensorsActivity extends Activity implements SensorEventListener, Lo
 
         SensorManager.getRotationMatrix(tmpForRotationMatrix, null, gravityNumbers, magneticFieldNumbers);
         SensorManager.remapCoordinateSystem(tmpForRotationMatrix, SensorManager.AXIS_Y, SensorManager.AXIS_MINUS_X, finalRotationMatrix);
+
         worldCoordonates.set(finalRotationMatrix[0], finalRotationMatrix[1], finalRotationMatrix[2],
                 finalRotationMatrix[3], finalRotationMatrix[4], finalRotationMatrix[5],
                 finalRotationMatrix[6], finalRotationMatrix[7], finalRotationMatrix[8]);
