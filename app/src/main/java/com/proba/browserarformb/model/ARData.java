@@ -3,8 +3,8 @@ package com.proba.browserarformb.model;
 import android.location.Location;
 import android.util.Log;
 
-import com.proba.browserarformb.Marker;
-import com.proba.browserarformb.Matrix;
+import com.proba.browserarformb.view.components.Marker;
+import com.proba.browserarformb.utilities.Matrix;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,6 +16,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * is the global control and storage class
+ *
+ */
 public abstract class ARData {
     private static final String TAG = ARData.class.getPackage().getName();
     private static final Map<String,Marker> markerList = new ConcurrentHashMap<String,Marker>();
@@ -24,11 +28,11 @@ public abstract class ARData {
     private static final float[] locationArray = new float[3];
 
     /* the default location initial era (0,0,1) */
-    public static final Location hardFix = new Location("ATL");
+    public static final Location defaultGlobalLocation = new Location("ATL");
     static {
-        hardFix.setLatitude(0);
-        hardFix.setLongitude(0);
-        hardFix.setAltitude(0);
+        defaultGlobalLocation.setLatitude(0);
+        defaultGlobalLocation.setLongitude(0);
+        defaultGlobalLocation.setAltitude(0);
     }
 
     private static final Object radiusLock = new Object();
@@ -36,7 +40,7 @@ public abstract class ARData {
     private static String zoomLevel = new String();
     private static final Object zoomProgressLock = new Object();
     private static int zoomProgress = 0;
-    private static Location currentLocation = hardFix;
+    private static Location currentLocation = defaultGlobalLocation;
     private static Matrix rotationMatrix = new Matrix();
     private static final Object azimuthLock = new Object();
     private static float azimuth = 0;
@@ -58,7 +62,7 @@ public abstract class ARData {
             if (ARData.zoomProgress != zoomProgress) {
                 ARData.zoomProgress = zoomProgress;
                 if (dirty.compareAndSet(false, true)) {
-                    Log.v(TAG, "Setting DIRTY flag!");
+                    Log.v(TAG, "setZoomProgress Setting DIRTY flag!");
                     cache.clear();
                 }
             }
@@ -107,14 +111,14 @@ public abstract class ARData {
 
     public static List<Marker> getMarkers() {
         if (dirty.compareAndSet(true, false)) {
-            Log.v(TAG, "DIRTY flag found, resetting all marker heights to zero.");
+            Log.v(TAG, "getMarkers DIRTY flag found, resetting all marker heights to zero.");
             for(Marker ma : markerList.values()) {
                 ma.getLocation().get(locationArray);
                 locationArray[1]=ma.getInitialY();
                 ma.getLocation().set(locationArray);
             }
 
-            Log.v(TAG, "Populating the cache.");
+            Log.v(TAG, "ARData.getMarkers Populating the cache.");
             List<Marker> copy = new ArrayList<Marker>();
             copy.addAll(markerList.values());
             Collections.sort(copy,comparator);
@@ -171,7 +175,7 @@ public abstract class ARData {
 
         if (markers.size()<=0) return;
 
-        Log.d(TAG, "New markers, updating markers. new markers="+markers.toString());
+        Log.d(TAG, "ARData.addMarkers:: New markers, updating markers. new markers="+markers.toString());
         for(Marker marker : markers) {
             if (!markerList.containsKey(marker.getName())) {
                 marker.calcRelativePosition(ARData.getCurrentLocation());
@@ -180,19 +184,19 @@ public abstract class ARData {
         }
 
         if (dirty.compareAndSet(false, true)) {
-            Log.v(TAG, "Setting DIRTY flag!");
+            Log.v(TAG, "ARData.addMarkers::Setting DIRTY flag!");
             cache.clear();
         }
     }
 
     private static void onLocationChanged(Location location) {
-        Log.d(TAG, "New location, updating markers. location="+location.toString());
+        Log.d(TAG, "ARData.onLocationChanged :: New location, updating markers. location="+location.toString());
         for(Marker ma: markerList.values()) {
             ma.calcRelativePosition(location);
         }
 
         if (dirty.compareAndSet(false, true)) {
-            Log.v(TAG, "Setting DIRTY flag!");
+            Log.v(TAG, "ARData.onLocationChanged :: Setting DIRTY flag!");
             cache.clear();
         }
     }

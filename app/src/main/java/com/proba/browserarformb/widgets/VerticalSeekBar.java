@@ -1,4 +1,4 @@
-package com.proba.browserarformb;
+package com.proba.browserarformb.widgets;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -6,6 +6,9 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.SeekBar;
 
+/**
+ * works vertically instead of horizontally. zoomBar is an instance of this class
+ */
 public class VerticalSeekBar extends SeekBar {
 
     public VerticalSeekBar(Context context) {

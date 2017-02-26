@@ -3,6 +3,9 @@ package com.proba.browserarformb.paintable;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
+/**
+ * draws the icons for google places, twitter, wikipedia
+ */
 public class PaintableIcon extends PaintableObject {
     private Bitmap bitmap=null;
 

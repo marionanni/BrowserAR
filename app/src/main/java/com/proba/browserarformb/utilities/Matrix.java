@@ -1,5 +1,9 @@
-package com.proba.browserarformb;
+package com.proba.browserarformb.utilities;
 
+/**
+ * adapted from Mixare
+ * handles functions related to matrices
+ */
 public class Matrix {
     private static final Matrix tmp = new Matrix();
 

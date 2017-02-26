@@ -1,10 +1,12 @@
-package com.proba.browserarformb;
+package com.proba.browserarformb.view.components;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.location.Location;
 import android.util.Log;
 
+import com.proba.browserarformb.utilities.Utilities;
+import com.proba.browserarformb.utilities.Vector;
 import com.proba.browserarformb.camera.CameraModel;
 import com.proba.browserarformb.model.ARData;
 import com.proba.browserarformb.paintable.PaintableBox;
@@ -12,9 +14,13 @@ import com.proba.browserarformb.paintable.PaintableBoxedText;
 import com.proba.browserarformb.paintable.PaintableGps;
 import com.proba.browserarformb.paintable.PaintableObject;
 import com.proba.browserarformb.paintable.PaintablePosition;
+import com.proba.browserarformb.position.PhysicalLocationUtilityOfTheUserInThreeDimensions;
 
 import java.text.DecimalFormat;
 
+/**
+ * decides if the marker should be visible on the screen and draws the image and text accordingly
+ */
 public class Marker implements Comparable<Marker> {
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("@#");
 
@@ -42,7 +48,7 @@ public class Marker implements Comparable<Marker> {
     protected volatile PaintableObject gpsSymbol = null;
     protected volatile PaintablePosition symbolContainer = null;
     protected String name = null;
-    protected volatile PhysicalLocationUtility physicalLocation = new PhysicalLocationUtility();
+    protected volatile PhysicalLocationUtilityOfTheUserInThreeDimensions physicalLocation = new PhysicalLocationUtilityOfTheUserInThreeDimensions();
     protected volatile double distance = 0.0;
     protected volatile boolean isOnRadar = false;
     protected volatile boolean isInView = false;
@@ -195,7 +201,7 @@ public class Marker implements Comparable<Marker> {
 
         if (physicalLocation.getAltitude()==0.0) physicalLocation.setAltitude(location.getAltitude());
 
-        PhysicalLocationUtility.convLocationToVector(location, physicalLocation, locationXyzRelativeToPhysicalLocation);
+        PhysicalLocationUtilityOfTheUserInThreeDimensions.convLocationToVector(location, physicalLocation, locationXyzRelativeToPhysicalLocation);
         this.initialY = locationXyzRelativeToPhysicalLocation.getY();
         updateRadar();
     }

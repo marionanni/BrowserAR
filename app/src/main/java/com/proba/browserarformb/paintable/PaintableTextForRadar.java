@@ -3,7 +3,10 @@ package com.proba.browserarformb.paintable;
 import android.graphics.Canvas;
 import android.graphics.Color;
 
-public class PaintableText extends PaintableObject {
+/**
+ * It is used to display text on the radar
+ */
+public class PaintableTextForRadar extends PaintableObject {
     private static final float WIDTH_PAD = 4;
     private static final float HEIGHT_PAD = 2;
 
@@ -14,7 +17,7 @@ public class PaintableText extends PaintableObject {
     private float height = 0;
     private boolean bg = false;
 
-    public PaintableText(String text, int color, int size, boolean paintBackground) {
+    public PaintableTextForRadar(String text, int color, int size, boolean paintBackground) {
         set(text, color, size, paintBackground);
     }
 

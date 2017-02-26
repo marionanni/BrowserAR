@@ -1,6 +1,6 @@
 package com.proba.browserarformb.model;
 
-import com.proba.browserarformb.Marker;
+import com.proba.browserarformb.view.components.Marker;
 
 import java.util.List;
 

@@ -8,6 +8,11 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
+/**
+ * the base class for drawing stuff on UI
+ * contains methods for drawing points, lines, bitmaps, etc.
+ * on a given canvas
+ */
 public abstract class PaintableObject {
     private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 

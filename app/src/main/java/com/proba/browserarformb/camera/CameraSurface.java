@@ -8,6 +8,9 @@ import android.view.SurfaceView;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * handles all SurfaceView related code
+ */
 public class CameraSurface extends SurfaceView implements SurfaceHolder.Callback {
     private static SurfaceHolder holder = null;
     private static Camera camera = null;

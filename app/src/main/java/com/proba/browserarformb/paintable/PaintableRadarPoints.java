@@ -2,10 +2,13 @@ package com.proba.browserarformb.paintable;
 
 import android.graphics.Canvas;
 
-import com.proba.browserarformb.Marker;
-import com.proba.browserarformb.Radar;
+import com.proba.browserarformb.view.components.Marker;
+import com.proba.browserarformb.view.components.Radar;
 import com.proba.browserarformb.model.ARData;
 
+/**
+ * draws markers relative positions on the radar
+ */
 public class PaintableRadarPoints extends PaintableObject {
     private final float[] locationArray = new float[3];
     private PaintablePoint paintablePoint = null;
@@ -22,19 +25,26 @@ public class PaintableRadarPoints extends PaintableObject {
             float x = locationArray[0] / scale;
             float y = locationArray[2] / scale;
             if ((x*x+y*y)<(Radar.RADIUS*Radar.RADIUS)) {
-                if (paintablePoint==null) paintablePoint = new PaintablePoint(pm.getColor(),true);
-                else paintablePoint.set(pm.getColor(),true);
+                if (paintablePoint==null) {
+                    paintablePoint = new PaintablePoint(pm.getColor(),true);
+                } else {
+                    paintablePoint.set(pm.getColor(),true);
+                }
 
-                if (pointContainer==null) pointContainer = new PaintablePosition( 	paintablePoint,
-                        (x+Radar.RADIUS-1),
-                        (y+Radar.RADIUS-1),
-                        0,
-                        1);
-                else pointContainer.set(paintablePoint,
-                        (x+Radar.RADIUS-1),
-                        (y+Radar.RADIUS-1),
-                        0,
-                        1);
+                if (pointContainer==null) {
+                    pointContainer = new PaintablePosition(
+                            paintablePoint,
+                            (x+Radar.RADIUS-1),
+                            (y+Radar.RADIUS-1),
+                            0,
+                            1);
+                } else {
+                    pointContainer.set(paintablePoint,
+                            (x+Radar.RADIUS-1),
+                            (y+Radar.RADIUS-1),
+                            0,
+                            1);
+                }
 
                 pointContainer.paint(canvas);
             }

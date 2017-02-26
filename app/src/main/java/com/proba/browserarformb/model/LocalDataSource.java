@@ -5,8 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 
-import com.proba.browserarformb.IconMarker;
-import com.proba.browserarformb.Marker;
+import com.proba.browserarformb.view.components.IconMarker;
+import com.proba.browserarformb.view.components.Marker;
 import com.proba.browserarformb.R;
 
 import java.util.ArrayList;

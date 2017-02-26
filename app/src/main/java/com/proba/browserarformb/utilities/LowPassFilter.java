@@ -1,5 +1,9 @@
-package com.proba.browserarformb.sensors;
+package com.proba.browserarformb.utilities;
 
+/**
+ * an electronic filter that passes low-frequency signals, but attenuates (reduces the amplitude
+ * of signals with freguencies higher than the cuttoff frequency
+ */
 public class LowPassFilter {
 
     private static final float ALPHA_DEFAULT = 0.333f;

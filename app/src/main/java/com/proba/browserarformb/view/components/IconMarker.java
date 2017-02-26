@@ -1,11 +1,15 @@
-package com.proba.browserarformb;
+package com.proba.browserarformb.view.components;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
+import com.proba.browserarformb.utilities.Utilities;
 import com.proba.browserarformb.paintable.PaintableIcon;
 import com.proba.browserarformb.paintable.PaintablePosition;
 
+/**
+ * draws a bitmap as an icon for a marker
+ */
 public class IconMarker extends Marker {
     private Bitmap bitmap = null;
 

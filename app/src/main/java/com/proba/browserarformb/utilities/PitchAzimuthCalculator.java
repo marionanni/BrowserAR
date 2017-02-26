@@ -1,5 +1,8 @@
-package com.proba.browserarformb;
+package com.proba.browserarformb.utilities;
 
+/**
+ * calculates pitch and azimuth when given a matrix
+ */
 public class PitchAzimuthCalculator {
     private static final Vector looking = new Vector();
     private static final float[] lookingArray = new float[3];

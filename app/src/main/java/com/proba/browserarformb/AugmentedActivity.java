@@ -18,7 +18,8 @@ import android.widget.TextView;
 
 import com.proba.browserarformb.camera.CameraSurface;
 import com.proba.browserarformb.model.ARData;
-import com.proba.browserarformb.sensors.SensorsActivity;
+import com.proba.browserarformb.view.components.Marker;
+import com.proba.browserarformb.widgets.VerticalSeekBar;
 
 import java.text.DecimalFormat;
 
@@ -53,6 +54,10 @@ public class AugmentedActivity extends SensorsActivity implements View.OnTouchLi
         camScreen = new CameraSurface(this);
         setContentView(camScreen);
 
+        /**
+         * @// TODO: 2/26/2017
+         * transform those views into layouts
+         */
         augmentedView = new AugmentedView(this);
         augmentedView.setOnTouchListener(this);
         ViewGroup.LayoutParams augLayout = new ViewGroup.LayoutParams(  ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -170,6 +175,6 @@ public class AugmentedActivity extends SensorsActivity implements View.OnTouchLi
     };
 
     protected void markerTouched(Marker marker) {
-        Log.w(TAG,"markerTouched() not implemented.");
+        Log.w(TAG,"markerTouched() not implemented in AugmentedActivity");
     }
 }

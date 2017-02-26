@@ -1,5 +1,8 @@
-package com.proba.browserarformb;
+package com.proba.browserarformb.utilities;
 
+/**
+ * Calculates the angle in PitchAzimuthCalculator
+ */
 public abstract class Utilities {
 
     private Utilities() { }

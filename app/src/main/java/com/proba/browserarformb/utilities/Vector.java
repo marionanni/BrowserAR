@@ -1,5 +1,9 @@
-package com.proba.browserarformb;
+package com.proba.browserarformb.utilities;
 
+/**
+ * handles the math behind vectors
+ * adapted from Mixare
+ */
 public class Vector {
     private final float[] matrixArray = new float[9];
 

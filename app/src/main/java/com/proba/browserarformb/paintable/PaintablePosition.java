@@ -2,6 +2,9 @@ package com.proba.browserarformb.paintable;
 
 import android.graphics.Canvas;
 
+/**
+ * adds to the PaintableObject the ability to rotate and scale the thing that needs to be painted
+ */
 public class PaintablePosition extends PaintableObject {
     private float width=0, height=0;
     private float objX=0, objY=0, objRotation=0, objScale=0;

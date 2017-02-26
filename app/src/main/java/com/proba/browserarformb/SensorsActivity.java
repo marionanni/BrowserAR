@@ -1,4 +1,4 @@
-package com.proba.browserarformb.sensors;
+package com.proba.browserarformb;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,8 +13,9 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.proba.browserarformb.Matrix;
+import com.proba.browserarformb.utilities.Matrix;
 import com.proba.browserarformb.model.ARData;
+import com.proba.browserarformb.utilities.LowPassFilter;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -106,14 +107,14 @@ public class SensorsActivity extends Activity implements SensorEventListener, Lo
                     } else if (network != null) {
                         onLocationChanged(network);
                     } else {
-                        onLocationChanged(ARData.hardFix);
+                        onLocationChanged(ARData.defaultGlobalLocation);
                     }
 
                 } catch (SecurityException e){
                     Log.e(TAG, "locationManager.getLastKnownLocation SecurityException", e);
                 } catch (Exception ex2) {
                     Log.e(TAG, "onLocationChanged exception", ex2);
-                    onLocationChanged(ARData.hardFix);
+                    onLocationChanged(ARData.defaultGlobalLocation);
                 }
 
                 geomagneticField = new GeomagneticField((float) ARData.getCurrentLocation().getLatitude(),

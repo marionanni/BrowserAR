@@ -2,6 +2,9 @@ package com.proba.browserarformb.paintable;
 
 import android.graphics.Canvas;
 
+/**
+ * PaintableCircle but with stroke width
+ */
 public class PaintableGps extends PaintableObject {
     private float radius = 0;
     private float strokeWidth = 0;

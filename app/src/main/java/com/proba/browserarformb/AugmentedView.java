@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import android.view.View;
 
 import com.proba.browserarformb.model.ARData;
+import com.proba.browserarformb.view.components.Marker;
+import com.proba.browserarformb.view.components.Radar;
 
 import java.util.ArrayList;
 import java.util.List;

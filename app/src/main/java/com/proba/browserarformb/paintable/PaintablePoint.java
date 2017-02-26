@@ -2,6 +2,10 @@ package com.proba.browserarformb.paintable;
 
 import android.graphics.Canvas;
 
+/**
+ * draws a point on th specified canvas.
+ * It is used on radar
+ */
 public class PaintablePoint extends PaintableObject {
     private static int width=2;
     private static int height=2;

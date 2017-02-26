@@ -10,6 +10,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
+/**
+ * adapted from the Mixare project
+ * maintains compability with all versions of Android
+ */
 public class CameraCompatibility {
     private static Method getSupportedPreviewSizes = null;
     private static Method mDefaultDisplay_getRotation = null;

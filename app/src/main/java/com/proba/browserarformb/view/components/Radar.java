@@ -1,16 +1,21 @@
-package com.proba.browserarformb;
+package com.proba.browserarformb.view.components;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 
+import com.proba.browserarformb.utilities.PitchAzimuthCalculator;
 import com.proba.browserarformb.camera.CameraModel;
 import com.proba.browserarformb.model.ARData;
 import com.proba.browserarformb.paintable.PaintableCircle;
 import com.proba.browserarformb.paintable.PaintableLine;
 import com.proba.browserarformb.paintable.PaintablePosition;
 import com.proba.browserarformb.paintable.PaintableRadarPoints;
-import com.proba.browserarformb.paintable.PaintableText;
+import com.proba.browserarformb.paintable.PaintableTextForRadar;
+import com.proba.browserarformb.paintable.ScreenPositionUtilityForRadarLines;
 
+/**
+ * draws the radar along with elements like lines and points
+ */
 public class Radar {
     public static final float RADIUS = 48;
 
@@ -21,8 +26,8 @@ public class Radar {
     private static final int TEXT_COLOR = Color.rgb(255,255,255);
     private static final int TEXT_SIZE = 12;
 
-    private static ScreenPositionUtility leftRadarLine = null;
-    private static ScreenPositionUtility rightRadarLine = null;
+    private static ScreenPositionUtilityForRadarLines leftRadarLine = null;
+    private static ScreenPositionUtilityForRadarLines rightRadarLine = null;
     private static PaintablePosition leftLineContainer = null;
     private static PaintablePosition rightLineContainer = null;
     private static PaintablePosition circleContainer = null;
@@ -30,12 +35,12 @@ public class Radar {
     private static PaintableRadarPoints radarPoints = null;
     private static PaintablePosition pointsContainer = null;
 
-    private static PaintableText paintableText = null;
+    private static PaintableTextForRadar paintableText = null;
     private static PaintablePosition paintedContainer = null;
 
     public Radar() {
-        if (leftRadarLine==null) leftRadarLine = new ScreenPositionUtility();
-        if (rightRadarLine==null) rightRadarLine = new ScreenPositionUtility();
+        if (leftRadarLine==null) leftRadarLine = new ScreenPositionUtilityForRadarLines();
+        if (rightRadarLine==null) rightRadarLine = new ScreenPositionUtilityForRadarLines();
     }
 
     public void draw(Canvas canvas) {
@@ -149,7 +154,7 @@ public class Radar {
     private void radarText(Canvas canvas, String txt, float x, float y, boolean bg) {
         if (canvas==null || txt==null) throw new NullPointerException();
 
-        if (paintableText==null) paintableText = new PaintableText(txt,TEXT_COLOR,TEXT_SIZE,bg);
+        if (paintableText==null) paintableText = new PaintableTextForRadar(txt,TEXT_COLOR,TEXT_SIZE,bg);
         else paintableText.set(txt,TEXT_COLOR,TEXT_SIZE,bg);
 
         if (paintedContainer==null) paintedContainer = new PaintablePosition(paintableText,x,y,0,1);

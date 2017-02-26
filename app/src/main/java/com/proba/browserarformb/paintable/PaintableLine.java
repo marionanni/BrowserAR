@@ -2,6 +2,9 @@ package com.proba.browserarformb.paintable;
 
 import android.graphics.Canvas;
 
+/**
+ * paints a line on the specified canvas
+ */
 public class PaintableLine extends PaintableObject {
     private int color = 0;
     private float x = 0;

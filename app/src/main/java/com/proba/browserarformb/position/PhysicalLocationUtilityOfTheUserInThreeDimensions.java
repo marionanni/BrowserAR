@@ -2,7 +2,7 @@ package com.proba.browserarformb.position;
 
 import android.location.Location;
 
-import com.proba.browserarformb.Vector;
+import com.proba.browserarformb.utilities.Vector;
 
 /**
  * Represents the user's location in real world in three dimensions
