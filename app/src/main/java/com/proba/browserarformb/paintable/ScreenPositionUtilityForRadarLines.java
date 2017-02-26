@@ -1,10 +1,13 @@
-package com.proba.browserarformb;
+package com.proba.browserarformb.paintable;
 
-public class ScreenPositionUtility {
+/**
+ * is used the displaying the lines for the radar
+ */
+public class ScreenPositionUtilityForRadarLines {
     private float x = 0f;
     private float y = 0f;
 
-    public ScreenPositionUtility() {
+    public ScreenPositionUtilityForRadarLines() {
         set(0, 0);
     }
 

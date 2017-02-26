@@ -1,8 +1,14 @@
-package com.proba.browserarformb;
+package com.proba.browserarformb.position;
 
 import android.location.Location;
 
-public class PhysicalLocationUtility {
+import com.proba.browserarformb.Vector;
+
+/**
+ * Represents the user's location in real world in three dimensions
+ */
+
+public class PhysicalLocationUtilityOfTheUserInThreeDimensions {
     private double latitude = 0.0;
     private double longitude = 0.0;
     private double altitude = 0.0;
@@ -11,9 +17,9 @@ public class PhysicalLocationUtility {
     private static double y = 0.0d;
     private static float[] z = new float[1];
 
-    public PhysicalLocationUtility() { }
+    public PhysicalLocationUtilityOfTheUserInThreeDimensions() { }
 
-    public PhysicalLocationUtility(PhysicalLocationUtility pl) {
+    public PhysicalLocationUtilityOfTheUserInThreeDimensions(PhysicalLocationUtilityOfTheUserInThreeDimensions pl) {
         if (pl==null) throw new NullPointerException();
 
         set(pl.latitude, pl.longitude, pl.altitude);
@@ -49,9 +55,9 @@ public class PhysicalLocationUtility {
         return altitude;
     }
 
-    public static synchronized void convLocationToVector(Location org, PhysicalLocationUtility gp, Vector v) {
+    public static synchronized void convLocationToVector(Location org, PhysicalLocationUtilityOfTheUserInThreeDimensions gp, Vector v) {
         if (org==null || gp==null || v==null)
-            throw new NullPointerException("Location, PhysicalLocationUtility, and Vector cannot be NULL.");
+            throw new NullPointerException("Location, PhysicalLocationUtilityOfTheUserInThreeDimensions, and Vector cannot be NULL.");
 
         Location.distanceBetween(	org.getLatitude(), org.getLongitude(),
                 gp.getLatitude(), org.getLongitude(),
