@@ -1,4 +1,4 @@
-package com.proba.browserarformb;
+package com.proba.browserarformb.activity;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -12,6 +12,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.proba.browserarformb.R;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -27,7 +29,6 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         backgroundThread();
         checkForPermissions();
-        startApp();
     }
 
     private void backgroundThread() {
@@ -43,7 +44,7 @@ public class SplashActivity extends AppCompatActivity {
                     Log.e(TAG, "InterruptedException", e);
                 }
                 finish();
-                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                startActivity(new Intent(SplashActivity.this, MapActivity.class));
             }
         });
     }
@@ -57,6 +58,7 @@ public class SplashActivity extends AppCompatActivity {
         checkForCameraPermission();
         checkForLocationPermission();
         checkForStoragePermission();
+        startApp();
     }
 
     private void checkForCameraPermission() {

@@ -1,4 +1,4 @@
-package com.proba.browserarformb;
+package com.proba.browserarformb.activity;
 
 
 import android.location.Location;
@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.proba.browserarformb.R;
 import com.proba.browserarformb.model.ARData;
 import com.proba.browserarformb.model.GoogleDataSource;
 import com.proba.browserarformb.model.LocalDataSource;

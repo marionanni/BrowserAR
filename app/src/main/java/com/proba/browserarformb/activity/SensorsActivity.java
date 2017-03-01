@@ -1,4 +1,4 @@
-package com.proba.browserarformb;
+package com.proba.browserarformb.activity;
 
 import android.app.Activity;
 import android.content.Context;
