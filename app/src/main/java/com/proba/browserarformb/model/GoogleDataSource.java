@@ -22,6 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GoogleDataSource extends NetworkDataSource {
+    /**
+     * @// TODO: 3/1/2017
+     * get API_KEY from manifest
+     */
     private static final String BASE_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
             + "&radius=50000&key=AIzaSyB674D7dkyfWNIUn5trLC5HsR1SP7U_kB8&location=";
     private static final String TAG = "Cip";
@@ -36,6 +40,7 @@ public class GoogleDataSource extends NetworkDataSource {
 
     @Override
     public String createRequestURL(double lat, double lng) {
+
         return (BASE_URL + lat + "," + lng);
     }
 

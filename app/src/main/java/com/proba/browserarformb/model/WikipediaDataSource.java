@@ -18,6 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WikipediaDataSource extends NetworkDataSource {
+    /**
+     * @// TODO: 3/1/2017
+     * get username from manifest file
+     */
     private static final String BASE_URL = "http://api.geonames.org/findNearbyJSON?formatted=true"
             + "&username=oshop.guest&radius=300";
     private static final String TAG = "Cip";
