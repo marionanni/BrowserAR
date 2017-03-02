@@ -27,16 +27,24 @@
             android:name="GEONAMES_ACCOUNT"
             android:value="oshop.guest"/>
 
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.MainActivity"
+                  android:screenOrientation="landscape"
+                  android:configChanges="keyboardHidden|orientation">
         </activity>
-        <activity android:name=".activity.SplashActivity">
+
+        <activity android:name=".activity.SplashActivity"
+                  android:screenOrientation="landscape"
+                  android:configChanges="keyboardHidden|orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MapActivity">
+
+        <activity android:name=".activity.MapActivity"
+                  android:screenOrientation="landscape"
+                  android:configChanges="keyboardHidden|orientation">
         </activity>
     </application>
 
