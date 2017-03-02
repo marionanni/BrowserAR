@@ -2,6 +2,7 @@ package com.proba.browserarformb.activity;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.hardware.Camera;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.os.Bundle;
@@ -9,6 +10,8 @@ import android.os.PowerManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -16,22 +19,22 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.proba.browserarformb.camera.CameraSurface;
+import com.proba.browserarformb.R;
 import com.proba.browserarformb.model.ARData;
 import com.proba.browserarformb.view.components.Marker;
 import com.proba.browserarformb.widgets.VerticalSeekBar;
 
 import java.text.DecimalFormat;
 
-public class AugmentedActivity extends SensorsActivity implements View.OnTouchListener {
-    private static final String TAG = "AugmentedActivity";
-    private static final DecimalFormat FORMAT = new DecimalFormat("#.##");
-    private static final int ZOOMBAR_BACKGROUND_COLOR = Color.argb(125,55,55,55);
-    private static final String END_TEXT = FORMAT.format(AugmentedActivity.MAX_ZOOM)+" km";
-    private static final int END_TEXT_COLOR = Color.WHITE;
+public class AugmentedActivity extends SensorsActivity implements View.OnTouchListener, SurfaceHolder.Callback {
 
+    private static final String TAG = "Cip";
+    Camera camera;
+    SurfaceView surfaceView;
+    SurfaceHolder surfaceHolder;
+
+    private static final DecimalFormat FORMAT = new DecimalFormat("#.##");
     protected static PowerManager.WakeLock wakeLock = null;
-    protected static CameraSurface camScreen = null;
     protected static VerticalSeekBar myZoomBar = null;
     protected static TextView endLabel = null;
     protected static LinearLayout zoomLayout = null;
@@ -51,31 +54,54 @@ public class AugmentedActivity extends SensorsActivity implements View.OnTouchLi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        camScreen = new CameraSurface(this);
-        setContentView(camScreen);
+        setContentView(R.layout.activity_ar);
+        surfaceView = (SurfaceView) findViewById(R.id.surfaceView);
+        surfaceHolder = surfaceView.getHolder();
+        surfaceHolder.addCallback(this);
 
         /**
          * @// TODO: 2/26/2017
-         * transform those views into layouts
+         * put those views into activity_ar layout
          */
+        addAugmentedView();
+        addZoomLayoutView();
+        addZoombarTextView();
+        addZoomSeekBar();
+
+        updateDataOnZoom();
+
+        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        wakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "DimScreen");
+    }
+
+    private void addAugmentedView() {
         augmentedView = new AugmentedView(this);
         augmentedView.setOnTouchListener(this);
         ViewGroup.LayoutParams augLayout = new ViewGroup.LayoutParams(  ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         addContentView(augmentedView,augLayout);
+    }
 
+    private void addZoomLayoutView() {
+        int BACKGROUND_COLOR = Color.argb(125,55,55,55);
         zoomLayout = new LinearLayout(this);
         zoomLayout.setVisibility((showZoomBar)?LinearLayout.VISIBLE:LinearLayout.GONE);
         zoomLayout.setOrientation(LinearLayout.VERTICAL);
         zoomLayout.setPadding(5, 5, 5, 5);
-        zoomLayout.setBackgroundColor(ZOOMBAR_BACKGROUND_COLOR);
+        zoomLayout.setBackgroundColor(BACKGROUND_COLOR);
+    }
+
+    private void addZoombarTextView() {
+        String END_TEXT = FORMAT.format(AugmentedActivity.MAX_ZOOM)+" km";
 
         endLabel = new TextView(this);
         endLabel.setText(END_TEXT);
-        endLabel.setTextColor(END_TEXT_COLOR);
+        endLabel.setTextColor(Color.WHITE);
         LinearLayout.LayoutParams zoomTextParams =  new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         zoomLayout.addView(endLabel, zoomTextParams);
+    }
 
+    private void addZoomSeekBar() {
         myZoomBar = new VerticalSeekBar(this);
         myZoomBar.setMax(100);
         myZoomBar.setProgress(50);
@@ -88,24 +114,17 @@ public class AugmentedActivity extends SensorsActivity implements View.OnTouchLi
                 ViewGroup.LayoutParams.FILL_PARENT,
                 Gravity.RIGHT);
         addContentView(zoomLayout,frameLayoutParams);
-
-        updateDataOnZoom();
-
-        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        wakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "DimScreen");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
         wakeLock.acquire();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-
         wakeLock.release();
     }
 
@@ -113,9 +132,8 @@ public class AugmentedActivity extends SensorsActivity implements View.OnTouchLi
     public void onSensorChanged(SensorEvent evt) {
         super.onSensorChanged(evt);
 
-        if (    evt.sensor.getType() == Sensor.TYPE_ACCELEROMETER ||
-                evt.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
-        {
+        if (evt.sensor.getType() == Sensor.TYPE_ACCELEROMETER ||
+                evt.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD){
             augmentedView.postInvalidate();
         }
     }
@@ -123,7 +141,7 @@ public class AugmentedActivity extends SensorsActivity implements View.OnTouchLi
     private SeekBar.OnSeekBarChangeListener myZoomBarOnSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             updateDataOnZoom();
-            camScreen.invalidate();
+            surfaceView.invalidate();
         }
 
         public void onStartTrackingTouch(SeekBar seekBar) {
@@ -132,7 +150,7 @@ public class AugmentedActivity extends SensorsActivity implements View.OnTouchLi
 
         public void onStopTrackingTouch(SeekBar seekBar) {
             updateDataOnZoom();
-            camScreen.invalidate();
+            surfaceView.invalidate();
         }
     };
 
@@ -172,9 +190,64 @@ public class AugmentedActivity extends SensorsActivity implements View.OnTouchLi
             }
         }
         return super.onTouchEvent(me);
-    };
+    }
 
     protected void markerTouched(Marker marker) {
         Log.w(TAG,"markerTouched() not implemented in AugmentedActivity");
+    }
+
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+        try {
+            camera = Camera.open();
+        } catch (RuntimeException e) {
+            Log.e(TAG, "surfaceCreated RuntimeException", e);
+            return;
+        }
+        Camera.Parameters param;
+        param = camera.getParameters();
+
+        param.setPreviewSize(352, 288);
+        camera.setParameters(param);
+        try {
+            // tell the camera where to draw the preview.
+            camera.setPreviewDisplay(surfaceHolder);
+            camera.startPreview();
+        } catch (Exception e) {
+            Log.e(TAG, "surfaceCreated Exception", e);
+            return;
+        }
+
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        refreshCamera();
+    }
+
+    private void refreshCamera() {
+        if (surfaceHolder.getSurface() == null) {
+            return;
+        }
+
+        try {
+            camera.stopPreview();
+        } catch (Exception e) {
+        }
+
+        try {
+            camera.setPreviewDisplay(surfaceHolder);
+            camera.startPreview();
+        } catch (Exception e) {
+
+        }
+    }
+
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        camera.stopPreview();
+        camera.release();
+        camera = null;
     }
 }

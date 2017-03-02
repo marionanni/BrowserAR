@@ -20,8 +20,8 @@ public class Radar {
     public static final float RADIUS = 48;
 
     private static final int LINE_COLOR = Color.argb(150,0,0,220);
-    private static final float PAD_X = 10;
-    private static final float PAD_Y = 20;
+    private static final float POSSITION_X = 16;
+    private static float POSSITION_Y = 20;
     private static final int RADAR_COLOR = Color.argb(100, 0, 0, 200);
     private static final int TEXT_COLOR = Color.rgb(255,255,255);
     private static final int TEXT_SIZE = 12;
@@ -41,10 +41,13 @@ public class Radar {
     public Radar() {
         if (leftRadarLine==null) leftRadarLine = new ScreenPositionUtilityForRadarLines();
         if (rightRadarLine==null) rightRadarLine = new ScreenPositionUtilityForRadarLines();
+
     }
 
     public void draw(Canvas canvas) {
         if (canvas==null) throw new NullPointerException();
+
+        POSSITION_Y = canvas.getHeight() - 3 * (int)RADIUS + 16;
 
         PitchAzimuthCalculator.calcPitchBearing(ARData.getRotationMatrix());
         ARData.setAzimuth(PitchAzimuthCalculator.getAzimuth());
@@ -61,7 +64,7 @@ public class Radar {
 
         if (circleContainer==null) {
             PaintableCircle paintableCircle = new PaintableCircle(RADAR_COLOR,RADIUS,true);
-            circleContainer = new PaintablePosition(paintableCircle,PAD_X+RADIUS,PAD_Y+RADIUS,0,1);
+            circleContainer = new PaintablePosition(paintableCircle, POSSITION_X +RADIUS, POSSITION_Y +RADIUS,0,1);
         }
         circleContainer.paint(canvas);
     }
@@ -73,14 +76,14 @@ public class Radar {
 
         if (pointsContainer==null)
             pointsContainer = new PaintablePosition( radarPoints,
-                    PAD_X,
-                    PAD_Y,
+                    POSSITION_X,
+                    POSSITION_Y,
                     -ARData.getAzimuth(),
                     1);
         else
             pointsContainer.set(radarPoints,
-                    PAD_X,
-                    PAD_Y,
+                    POSSITION_X,
+                    POSSITION_Y,
                     -ARData.getAzimuth(),
                     1);
 
@@ -93,14 +96,14 @@ public class Radar {
         if (leftLineContainer==null) {
             leftRadarLine.set(0, -RADIUS);
             leftRadarLine.rotate(-CameraModel.DEFAULT_VIEW_ANGLE / 2);
-            leftRadarLine.add(PAD_X+RADIUS, PAD_Y+RADIUS);
+            leftRadarLine.add(POSSITION_X +RADIUS, POSSITION_Y +RADIUS);
 
-            float leftX = leftRadarLine.getX()-(PAD_X+RADIUS);
-            float leftY = leftRadarLine.getY()-(PAD_Y+RADIUS);
+            float leftX = leftRadarLine.getX()-(POSSITION_X +RADIUS);
+            float leftY = leftRadarLine.getY()-(POSSITION_Y +RADIUS);
             PaintableLine leftLine = new PaintableLine(LINE_COLOR, leftX, leftY);
             leftLineContainer = new PaintablePosition(  leftLine,
-                    PAD_X+RADIUS,
-                    PAD_Y+RADIUS,
+                    POSSITION_X +RADIUS,
+                    POSSITION_Y +RADIUS,
                     0,
                     1);
         }
@@ -109,14 +112,14 @@ public class Radar {
         if (rightLineContainer==null) {
             rightRadarLine.set(0, -RADIUS);
             rightRadarLine.rotate(CameraModel.DEFAULT_VIEW_ANGLE / 2);
-            rightRadarLine.add(PAD_X+RADIUS, PAD_Y+RADIUS);
+            rightRadarLine.add(POSSITION_X +RADIUS, POSSITION_Y +RADIUS);
 
-            float rightX = rightRadarLine.getX()-(PAD_X+RADIUS);
-            float rightY = rightRadarLine.getY()-(PAD_Y+RADIUS);
+            float rightX = rightRadarLine.getX()-(POSSITION_X +RADIUS);
+            float rightY = rightRadarLine.getY()-(POSSITION_Y +RADIUS);
             PaintableLine rightLine = new PaintableLine(LINE_COLOR, rightX, rightY);
             rightLineContainer = new PaintablePosition( rightLine,
-                    PAD_X+RADIUS,
-                    PAD_Y+RADIUS,
+                    POSSITION_X +RADIUS,
+                    POSSITION_Y +RADIUS,
                     0,
                     1);
         }
@@ -138,15 +141,15 @@ public class Radar {
         int bearing = (int) ARData.getAzimuth();
         radarText(  canvas,
                 ""+bearing+((char)176)+" "+dirTxt,
-                (PAD_X + RADIUS),
-                (PAD_Y - 5),
+                (POSSITION_X + RADIUS),
+                (POSSITION_Y - 5),
                 true
         );
 
         radarText(  canvas,
                 formatDist(ARData.getRadius() * 1000),
-                (PAD_X + RADIUS),
-                (PAD_Y + RADIUS*2 -10),
+                (POSSITION_X + RADIUS),
+                (POSSITION_Y + RADIUS*2 -10),
                 false
         );
     }

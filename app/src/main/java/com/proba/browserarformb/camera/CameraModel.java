@@ -2,10 +2,6 @@ package com.proba.browserarformb.camera;
 
 import com.proba.browserarformb.utilities.Vector;
 
-/**
- * represents the camera and it's view. It allows us to project points
- * it is adapted from Mixare
- */
 public class CameraModel {
     private static final float[] tmp1 = new float[3];
     private static final float[] tmp2 = new float[3];

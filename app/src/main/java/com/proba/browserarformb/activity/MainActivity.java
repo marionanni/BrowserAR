@@ -1,6 +1,7 @@
 package com.proba.browserarformb.activity;
 
 
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -147,5 +149,9 @@ public class MainActivity extends AugmentedActivity {
 
         ARData.addMarkers(markers);
         return true;
+    }
+
+    public void switchToMap(View view) {
+        startActivity(new Intent(this, MapActivity.class));
     }
 }

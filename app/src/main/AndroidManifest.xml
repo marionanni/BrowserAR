@@ -19,34 +19,33 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="GOOGLE_PLACES_API_KEY"
             android:value="AIzaSyB674D7dkyfWNIUn5trLC5HsR1SP7U_kB8"/>
-
         <meta-data
             android:name="GEONAMES_ACCOUNT"
             android:value="oshop.guest"/>
 
-        <activity android:name=".activity.SplashActivity"
-                  android:screenOrientation="landscape"
-                  android:configChanges="keyboardHidden|orientation">
+        <activity
+            android:name=".activity.SplashActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
-        <activity android:name=".activity.MapActivity"
-                  android:screenOrientation="landscape"
-                  android:configChanges="keyboardHidden|orientation">
+        <activity
+            android:name=".activity.MapActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="landscape">
         </activity>
-
-        <activity android:name=".activity.MainActivity"
-                  android:screenOrientation="landscape"
-                  android:configChanges="keyboardHidden|orientation">
+        <activity
+            android:name=".activity.MainActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="landscape">
         </activity>
-
     </application>
 
 </manifest>
