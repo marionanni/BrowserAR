@@ -1,10 +1,11 @@
 package com.proba.browserarformb.model;
 
 
-public class LocationGPS {
+public class LocationGPS{
 
     private double mLatitude;
     private double mLongitude;
+    private double mAltitude = 0;
 
     public LocationGPS(){
     }
@@ -36,5 +37,13 @@ public class LocationGPS {
 
     public void setLongitude(double longitude) {
         mLongitude = longitude;
+    }
+
+    public double getAltitude() {
+        return mAltitude;
+    }
+
+    public void setAltitude(double altitude) {
+        mLatitude = altitude;
     }
 }

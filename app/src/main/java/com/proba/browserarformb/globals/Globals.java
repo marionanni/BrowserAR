@@ -1,7 +1,7 @@
 package com.proba.browserarformb.globals;
 
 import android.app.Application;
-import android.util.Log;
+import android.location.Location;
 
 import com.proba.browserarformb.model.LocationGPS;
 
@@ -11,7 +11,11 @@ public class Globals extends Application {
 
     private static final String TAG = "Cip";
 
-    private LocationGPS mCurrentLocation;
+    private static LocationGPS mCurrentLocation;
+
+    public void setCurrentLocation(Location location) {
+        mCurrentLocation =  new LocationGPS(location.getLatitude(), location.getLongitude());;
+    }
 
     public LocationGPS getCurrentLocation() {
         return mCurrentLocation;
@@ -23,6 +27,5 @@ public class Globals extends Application {
 
     public void setCurrentLocation(GeoPoint geoPoint) {
         mCurrentLocation = new LocationGPS(geoPoint.getLatitude(), geoPoint.getLongitude());
-        Log.d(TAG, "iar am dat click pe lat:" + geoPoint.getLatitude() + ", lng:" + geoPoint.getLongitude());
     }
 }

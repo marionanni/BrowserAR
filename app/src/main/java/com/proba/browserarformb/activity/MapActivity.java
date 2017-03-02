@@ -1,11 +1,15 @@
 package com.proba.browserarformb.activity;
 
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 
 import com.proba.browserarformb.R;
 import com.proba.browserarformb.globals.Globals;
+import com.proba.browserarformb.model.LocationGPS;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.events.MapEventsReceiver;
@@ -23,6 +27,11 @@ public class MapActivity extends AppCompatActivity  implements MapEventsReceiver
     private IMapController mapController;
     private MapEventsOverlay mapEventsOverlay;
     private Marker myMarker;
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +59,12 @@ public class MapActivity extends AppCompatActivity  implements MapEventsReceiver
     }
 
     private void setMarkerOnDefaultPosittion() {
-        double latitude = Double.parseDouble(getString(R.string.start_lat));
-        double longitude = Double.parseDouble(getString(R.string.start_lng));
+        LocationGPS currentLocation = ((Globals)this.getApplication()).getCurrentLocation();
+        double lat = currentLocation.getLatitude();
+        double lng = currentLocation.getLongitude();
 
-        GeoPoint startPoint = new GeoPoint(latitude, longitude);
-        Log.d(TAG, String.format("lat: %.2f, lng: %.2f", latitude, longitude));
+        GeoPoint startPoint = new GeoPoint(lat, lng);
+        Log.d(TAG, String.format("lat: %.2f, lng: %.2f", lat, lng));
         drawMarker(startPoint);
     }
 
@@ -85,5 +95,9 @@ public class MapActivity extends AppCompatActivity  implements MapEventsReceiver
     @Override
     public boolean longPressHelper(GeoPoint p) {
         return false;
+    }
+
+    public void switchToAR(View view) {
+        startActivity(new Intent(this, MainActivity.class));
     }
 }

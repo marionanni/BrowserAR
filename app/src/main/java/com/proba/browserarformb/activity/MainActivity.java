@@ -12,9 +12,10 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.proba.browserarformb.R;
+import com.proba.browserarformb.globals.Globals;
 import com.proba.browserarformb.model.ARData;
 import com.proba.browserarformb.model.GoogleDataSource;
-import com.proba.browserarformb.model.LocalDataSource;
+import com.proba.browserarformb.model.LocationGPS;
 import com.proba.browserarformb.model.NetworkDataSource;
 import com.proba.browserarformb.view.components.Marker;
 
@@ -37,8 +38,8 @@ public class MainActivity extends AugmentedActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LocalDataSource localData = new LocalDataSource(this.getResources());
-        ARData.addMarkers(localData.getMarkers());
+//        LocalDataSource localData = new LocalDataSource(this.getResources());
+//        ARData.addMarkers(localData.getMarkers());
 
 //        NetworkDataSource twitter = new GoogleDataSource(this.getResources());
 //        sources.put("twitter",twitter);
@@ -53,9 +54,13 @@ public class MainActivity extends AugmentedActivity {
     @Override
     public void onStart() {
         super.onStart();
+        updateDataBasedOnLocation();
+    }
 
-        Location last = ARData.getCurrentLocation();
-        updateData(last.getLatitude(),last.getLongitude(),last.getAltitude());
+    public void updateDataBasedOnLocation(){
+        //        Location last = ARData.getCurrentLocation();
+        LocationGPS currentLocation = ((Globals)this.getApplication()).getCurrentLocation();
+        updateData(currentLocation.getLatitude(),currentLocation.getLongitude(), 0);
     }
 
     @Override
@@ -89,7 +94,7 @@ public class MainActivity extends AugmentedActivity {
     public void onLocationChanged(Location location) {
         super.onLocationChanged(location);
 
-        updateData(location.getLatitude(),location.getLongitude(),location.getAltitude());
+        updateDataBasedOnLocation();
     }
 
     @Override
@@ -102,8 +107,7 @@ public class MainActivity extends AugmentedActivity {
     @Override
     protected void updateDataOnZoom() {
         super.updateDataOnZoom();
-        Location last = ARData.getCurrentLocation();
-        updateData(last.getLatitude(),last.getLongitude(),last.getAltitude());
+        updateDataBasedOnLocation();
     }
 
     private void updateData(final double lat, final double lon, final double alt) {

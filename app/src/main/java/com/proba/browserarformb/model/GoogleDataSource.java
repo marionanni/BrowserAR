@@ -40,8 +40,9 @@ public class GoogleDataSource extends NetworkDataSource {
 
     @Override
     public String createRequestURL(double lat, double lng) {
-
-        return (BASE_URL + lat + "," + lng);
+        String theURL = BASE_URL + lat + "," + lng;
+        Log.d(TAG, theURL);
+        return theURL;
     }
 
     @Override
@@ -53,6 +54,7 @@ public class GoogleDataSource extends NetworkDataSource {
         try {
             if(jsonObject.has("results")) {
                 JSONArray resultsArray = jsonObject.getJSONArray("results");
+                Log.d(TAG, "nr poi gasite:" + resultsArray.length());
                 for (int i = 0; i < resultsArray.length(); i++) {
                     JSONObject tmpJson = resultsArray.getJSONObject(i);
                     Marker marker = googlePlacesJSONToIconMarker(tmpJson);
@@ -72,6 +74,7 @@ public class GoogleDataSource extends NetworkDataSource {
         if (jsonObject.has("name") && jsonObject.has("geometry") ) {
             try {
                 String name = jsonObject.getString("name");
+                Log.d(TAG, "name: " + name);
                 LocationGPS locationGPS = getLocation(jsonObject);
                 icon = loadIcon(jsonObject.getString("icon"));
                 double lat = locationGPS.getLatitude();

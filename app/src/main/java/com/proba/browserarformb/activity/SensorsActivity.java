@@ -13,6 +13,8 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.proba.browserarformb.globals.Globals;
+import com.proba.browserarformb.model.LocationGPS;
 import com.proba.browserarformb.utilities.Matrix;
 import com.proba.browserarformb.model.ARData;
 import com.proba.browserarformb.utilities.LowPassFilter;
@@ -235,10 +237,12 @@ public class SensorsActivity extends Activity implements SensorEventListener, Lo
     }
 
     public void onLocationChanged(Location location) {
-        ARData.setCurrentLocation(location);
-        geomagneticField = new GeomagneticField((float) ARData.getCurrentLocation().getLatitude(),
-                (float) ARData.getCurrentLocation().getLongitude(),
-                (float) ARData.getCurrentLocation().getAltitude(),
+//        ((Globals)this.getApplication()).setCurrentLocation(location);
+        LocationGPS locationGPS = ((Globals)this.getApplication()).getCurrentLocation();
+        ARData.setCurrentLocation(locationGPS);
+        geomagneticField = new GeomagneticField((float) locationGPS.getLatitude(),
+                (float) locationGPS.getLongitude(),
+                (float) locationGPS.getAltitude(),
                 System.currentTimeMillis());
 
         double angleY = Math.toRadians(-geomagneticField.getDeclination());

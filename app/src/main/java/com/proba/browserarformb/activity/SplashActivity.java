@@ -14,6 +14,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.proba.browserarformb.R;
+import com.proba.browserarformb.globals.Globals;
+import com.proba.browserarformb.model.LocationGPS;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -38,6 +40,7 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 try {
                     //init stuff & psg geonames from assets
+                    initStuff();
                     //AssetManager mgr = getAssets();
                     Thread.sleep(2 * 1000);
                 } catch (InterruptedException e) {
@@ -47,6 +50,12 @@ public class SplashActivity extends AppCompatActivity {
                 startActivity(new Intent(SplashActivity.this, MapActivity.class));
             }
         });
+    }
+
+    private void initStuff() {
+        double lat = Double.parseDouble(getString(R.string.start_lat));
+        double lng = Double.parseDouble(getString(R.string.start_lng));
+        ((Globals)this.getApplication()).setCurrentLocation(new LocationGPS(lat, lng));
     }
 
     private void checkForPermissions() {

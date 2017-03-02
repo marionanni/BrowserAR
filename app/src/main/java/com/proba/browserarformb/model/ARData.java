@@ -3,8 +3,8 @@ package com.proba.browserarformb.model;
 import android.location.Location;
 import android.util.Log;
 
-import com.proba.browserarformb.view.components.Marker;
 import com.proba.browserarformb.utilities.Matrix;
+import com.proba.browserarformb.view.components.Marker;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,20 +27,23 @@ public abstract class ARData {
     private static final AtomicBoolean dirty = new AtomicBoolean(false);
     private static final float[] locationArray = new float[3];
 
+
     /* the default location initial era (0,0,1) */
     public static final Location defaultGlobalLocation = new Location("ATL");
     static {
         defaultGlobalLocation.setLatitude(0);
         defaultGlobalLocation.setLongitude(0);
-        defaultGlobalLocation.setAltitude(0);
+        defaultGlobalLocation.setAltitude(1);
     }
+
 
     private static final Object radiusLock = new Object();
     private static float radius = new Float(20);
     private static String zoomLevel = new String();
     private static final Object zoomProgressLock = new Object();
     private static int zoomProgress = 0;
-    private static Location currentLocation = defaultGlobalLocation;
+//    private static Location currentLocation = defaultGlobalLocation;
+    private static LocationGPS currentLocationGPS;
     private static Matrix rotationMatrix = new Matrix();
     private static final Object azimuthLock = new Object();
     private static float azimuth = 0;
@@ -81,19 +84,19 @@ public abstract class ARData {
         }
     }
 
-    public static void setCurrentLocation(Location currentLocation) {
+        public static void setCurrentLocation(LocationGPS currentLocation) {
         if (currentLocation==null) throw new NullPointerException();
 
         Log.d(TAG, "current location. location="+currentLocation.toString());
         synchronized (currentLocation) {
-            ARData.currentLocation = currentLocation;
+            ARData.currentLocationGPS = currentLocation;
         }
         onLocationChanged(currentLocation);
     }
 
-    public static Location getCurrentLocation() {
-        synchronized (ARData.currentLocation) {
-            return ARData.currentLocation;
+    public static LocationGPS getCurrentLocation() {
+        synchronized (ARData.currentLocationGPS) {
+            return ARData.currentLocationGPS;
         }
     }
 
@@ -189,7 +192,7 @@ public abstract class ARData {
         }
     }
 
-    private static void onLocationChanged(Location location) {
+    private static void onLocationChanged(LocationGPS location) {
         Log.d(TAG, "ARData.onLocationChanged :: New location, updating markers. location="+location.toString());
         for(Marker ma: markerList.values()) {
             ma.calcRelativePosition(location);

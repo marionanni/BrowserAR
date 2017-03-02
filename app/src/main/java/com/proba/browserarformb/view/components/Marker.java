@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.location.Location;
 import android.util.Log;
 
+import com.proba.browserarformb.model.LocationGPS;
 import com.proba.browserarformb.utilities.Utilities;
 import com.proba.browserarformb.utilities.Vector;
 import com.proba.browserarformb.camera.CameraModel;
@@ -206,7 +207,28 @@ public class Marker implements Comparable<Marker> {
         updateRadar();
     }
 
+    public synchronized void calcRelativePosition(LocationGPS location) {
+        if (location==null) throw new NullPointerException();
+
+        updateDistance(location);
+
+        if (physicalLocation.getAltitude()==0.0) physicalLocation.setAltitude(location.getAltitude());
+
+        PhysicalLocationUtilityOfTheUserInThreeDimensions.convLocationToVector(location, physicalLocation, locationXyzRelativeToPhysicalLocation);
+        this.initialY = locationXyzRelativeToPhysicalLocation.getY();
+        updateRadar();
+    }
+
+
+
     private synchronized void updateDistance(Location location) {
+        if (location==null) throw new NullPointerException();
+
+        Location.distanceBetween(physicalLocation.getLatitude(), physicalLocation.getLongitude(), location.getLatitude(), location.getLongitude(), distanceArray);
+        distance = distanceArray[0];
+    }
+
+    private synchronized void updateDistance(LocationGPS location) {
         if (location==null) throw new NullPointerException();
 
         Location.distanceBetween(physicalLocation.getLatitude(), physicalLocation.getLongitude(), location.getLatitude(), location.getLongitude(), distanceArray);
