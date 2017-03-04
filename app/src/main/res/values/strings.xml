@@ -3,4 +3,5 @@
     <string name="start_lat">47.6402078760672</string>
     <string name="start_lng">26.246949434280396</string>
     <string name="fake_location_marker_title">This location will be set as fake location</string>
+    <string name="permission_warning">Without those permissions the application can\'t function properly</string>
 </resources>

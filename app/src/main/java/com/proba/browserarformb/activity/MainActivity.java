@@ -43,14 +43,12 @@ public class MainActivity extends AugmentedActivity {
 //        LocalDataSource localData = new LocalDataSource(this.getResources());
 //        ARData.addMarkers(localData.getMarkers());
 
-//        NetworkDataSource twitter = new GoogleDataSource(this.getResources());
-//        sources.put("twitter",twitter);
 //        NetworkDataSource twitter = new TwitterDataSource(this.getResources());
 //        sources.put("twitter",twitter);
-//        NetworkDataSource wikipedia = new WikipediaDataSource(this.getResources());
-//        sources.put("wiki",wikipedia);
-        NetworkDataSource wikipedia = new GoogleDataSource(this.getResources());
-        sources.put("wiki",wikipedia);
+//        NetworkDataSource geonames = new WikipediaDataSource(this.getResources());
+//        sources.put("wiki",geonames);
+        NetworkDataSource googlePlaces = new GoogleDataSource(this.getResources());
+        sources.put("googlePlaces",googlePlaces);
     }
 
     @Override

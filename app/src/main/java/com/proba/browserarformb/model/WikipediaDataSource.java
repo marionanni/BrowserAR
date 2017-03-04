@@ -42,8 +42,9 @@ public class WikipediaDataSource extends NetworkDataSource {
 
     @Override
     public String createRequestURL(double lat, double lng) {
-        String baseURL = BASE_URL + "&lat=" + lat + "&lng=" + lng;
-        return baseURL;
+        String theURL = BASE_URL + "&lat=" + lat + "&lng=" + lng;
+        Log.d(TAG, theURL);
+        return theURL;
     }
 
     @Override
