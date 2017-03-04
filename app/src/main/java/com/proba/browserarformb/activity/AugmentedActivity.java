@@ -40,7 +40,7 @@ public class AugmentedActivity extends SensorsActivity implements View.OnTouchLi
     protected static LinearLayout zoomLayout = null;
     protected static AugmentedView augmentedView = null;
 
-    public static final float MAX_ZOOM = 100; //in KM
+    public static final float MAX_ZOOM = 50; //in KM
     public static final float ONE_PERCENT = MAX_ZOOM/100f;
     public static final float TEN_PERCENT = 10f*ONE_PERCENT;
     public static final float TWENTY_PERCENT = 2f*TEN_PERCENT;
@@ -59,6 +59,16 @@ public class AugmentedActivity extends SensorsActivity implements View.OnTouchLi
         surfaceHolder = surfaceView.getHolder();
         surfaceHolder.addCallback(this);
 
+
+        addViewsDinamically();
+        updateDataOnZoom();
+
+        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        wakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "DimScreen");
+    }
+
+    private void addViewsDinamically() {
+
         /**
          * @// TODO: 2/26/2017
          * put those views into activity_ar layout
@@ -67,11 +77,6 @@ public class AugmentedActivity extends SensorsActivity implements View.OnTouchLi
         addZoomLayoutView();
         addZoombarTextView();
         addZoomSeekBar();
-
-        updateDataOnZoom();
-
-        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        wakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "DimScreen");
     }
 
     private void addAugmentedView() {
@@ -185,7 +190,9 @@ public class AugmentedActivity extends SensorsActivity implements View.OnTouchLi
     public boolean onTouch(View view, MotionEvent me) {
         for (Marker marker : ARData.getMarkers()) {
             if (marker.handleClick(me.getX(), me.getY())) {
-                if (me.getAction() == MotionEvent.ACTION_UP) markerTouched(marker);
+                if (me.getAction() == MotionEvent.ACTION_UP) {
+                    markerTouched(marker);
+                }
                 return true;
             }
         }
@@ -193,7 +200,7 @@ public class AugmentedActivity extends SensorsActivity implements View.OnTouchLi
     }
 
     protected void markerTouched(Marker marker) {
-        Log.w(TAG,"markerTouched() not implemented in AugmentedActivity");
+//        Log.w(TAG,"markerTouched() not implemented in AugmentedActivity");
     }
 
     @Override
@@ -242,7 +249,6 @@ public class AugmentedActivity extends SensorsActivity implements View.OnTouchLi
 
         }
     }
-
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {

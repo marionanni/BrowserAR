@@ -50,7 +50,7 @@ public class MapActivity extends AppCompatActivity  implements MapEventsReceiver
         map.setMultiTouchControls(true);
 
         mapController = map.getController();
-        mapController.setZoom(18);
+        mapController.setZoom(17);
     }
 
     private void setOverlay() {

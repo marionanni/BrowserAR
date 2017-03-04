@@ -13,19 +13,19 @@ public class Globals extends Application {
 
     private static LocationGPS mCurrentLocation;
 
-    public void setCurrentLocation(Location location) {
+    public synchronized void setCurrentLocation(Location location) {
         mCurrentLocation =  new LocationGPS(location.getLatitude(), location.getLongitude());;
     }
 
-    public LocationGPS getCurrentLocation() {
+    public synchronized LocationGPS getCurrentLocation() {
         return mCurrentLocation;
     }
 
-    public void setCurrentLocation(LocationGPS currentLocation) {
+    public synchronized void setCurrentLocation(LocationGPS currentLocation) {
         mCurrentLocation = currentLocation;
     }
 
-    public void setCurrentLocation(GeoPoint geoPoint) {
+    public synchronized void setCurrentLocation(GeoPoint geoPoint) {
         mCurrentLocation = new LocationGPS(geoPoint.getLatitude(), geoPoint.getLongitude());
     }
 }

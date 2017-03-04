@@ -14,6 +14,10 @@ import java.util.ListIterator;
 import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * designed to draw the radar, zoombar and the markers that show the data over te camera preview
+ * not necessary, bc the recommended method is to have customs views as xml
+ */
 public class AugmentedView extends View {
     private static final AtomicBoolean drawing = new AtomicBoolean(false);
 
