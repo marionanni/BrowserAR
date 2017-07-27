@@ -127,7 +127,6 @@ public class PermissionUtils {
                                 });
 
                     } else {
-                        Log.i(TAG, "all permissions granted");
                         callerActivity.PermissionGranted(mReqCode);
                     }
                 }

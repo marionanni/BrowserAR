@@ -1,4 +1,4 @@
-package com.proba.browserarformb.widgets;
+package com.proba.browserarformb.view.widgets;
 
 import android.content.Context;
 import android.graphics.Canvas;

@@ -22,7 +22,7 @@ import android.widget.TextView;
 import com.proba.browserarformb.R;
 import com.proba.browserarformb.model.ARData;
 import com.proba.browserarformb.view.components.Marker;
-import com.proba.browserarformb.widgets.VerticalSeekBar;
+import com.proba.browserarformb.view.widgets.VerticalSeekBar;
 
 import java.text.DecimalFormat;
 
